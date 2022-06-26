@@ -1,3 +1,3 @@
-# Unity FSM expriment
+# Unity FSM experiment
 
 👌

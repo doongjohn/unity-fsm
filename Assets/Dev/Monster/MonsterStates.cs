@@ -24,10 +24,18 @@ namespace MonsterState
 
             var speed = data.followSpeed;
 
-            // FIXME: bug
             // set appropriate speed if the movement overshots
-            if (data.targetDistance - data.strafeEnterRange - speed * Time.fixedDeltaTime <= 0)
-                speed = (data.targetDistance - data.strafeEnterRange) / Time.fixedDeltaTime;
+            if (data.targetDistance > data.strafeEnterRange)
+            {
+                if (data.targetDistance - (speed * Time.fixedDeltaTime) < data.strafeEnterRange)
+                {
+                    speed = (data.targetDistance - data.strafeEnterRange) / Time.fixedDeltaTime;
+                }
+            }
+            else
+            {
+                speed = 0f;
+            }
 
             data.rb.velocity = data.targetDirection * speed;
         }

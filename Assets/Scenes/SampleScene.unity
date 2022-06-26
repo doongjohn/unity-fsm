@@ -330,7 +330,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh27946
+  m_Name: pb_Mesh27952
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -342,7 +342,7 @@ Mesh:
     vertexCount: 4
     localAABB:
       m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 50, y: 0, z: 50}
+      m_Extent: {x: 150, y: 0, z: 200}
   m_Shapes:
     vertices: []
     shapes: []
@@ -421,7 +421,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 192
-    _typelessdata: 000048c200000000000048c2000000000000803f000000000000803f0000000000000000000080bf000048c2000048c2000048c20000000000004842000000000000803f000000000000803f0000000000000000000080bf000048c2000048420000484200000000000048c2000000000000803f000000000000803f0000000000000000000080bf00004842000048c2000048420000000000004842000000000000803f000000000000803f0000000000000000000080bf0000484200004842
+    _typelessdata: 000016c300000000000048c3000000000000803f000000000000803f0000000000000000000080bf000016c3000048c3000016c30000000000004843000000000000803f000000000000803f0000000000000000000080bf000016c3000048430000164300000000000048c3000000000000803f000000000000803f0000000000000000000080bf00001643000048c3000016430000000000004843000000000000803f000000000000803f0000000000000000000080bf0000164300004843
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -476,7 +476,7 @@ Mesh:
     m_UVInfo: 0
   m_LocalAABB:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 50, y: 0, z: 50}
+    m_Extent: {x: 150, y: 0, z: 200}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -691,12 +691,13 @@ MonoBehaviour:
     targetDirection: {x: 0, y: 0, z: 0}
     aggroDistance: 10
     followSpeed: 5
-    strafeDist: 6
+    strafeEnterRange: 5
+    strafeDuration: 3
     strafeSpeed: 2.5
-    prefabBullet: {fileID: 843495240635949278, guid: 1015d48d7d6c329499f6a56425d4bc87,
-      type: 3}
     skillRange: 7
     skillCooldown: 5
+    prefabBullet: {fileID: 843495240635949278, guid: 1015d48d7d6c329499f6a56425d4bc87,
+      type: 3}
     skillCooldownTimer: 0
     isSkillActive: 0
     isSkill1Done: 0
@@ -1016,11 +1017,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Shape:
     rid: 8788586959017082905
-  m_Size: {x: 100, y: 0, z: 100}
+  m_Size: {x: 300, y: 1, z: 400}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_PivotLocation: 0
   m_PivotPosition: {x: 0, y: 0, z: 0}
-  m_UnmodifiedMeshVersion: 235
+  m_UnmodifiedMeshVersion: 482
   m_ShapeBox:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0, z: 0.5}
@@ -1070,15 +1071,15 @@ MonoBehaviour:
   - m_Vertices: 03000000
   m_SharedTextures: []
   m_Positions:
-  - {x: -50, y: 0, z: -50}
-  - {x: -50, y: 0, z: 50}
-  - {x: 50, y: 0, z: -50}
-  - {x: 50, y: 0, z: 50}
+  - {x: -150, y: 0, z: -200}
+  - {x: -150, y: 0, z: 200}
+  - {x: 150, y: 0, z: -200}
+  - {x: 150, y: 0, z: 200}
   m_Textures0:
-  - {x: -50, y: -50}
-  - {x: -50, y: 50}
-  - {x: 50, y: -50}
-  - {x: 50, y: 50}
+  - {x: -150, y: -200}
+  - {x: -150, y: 200}
+  - {x: 150, y: -200}
+  - {x: 150, y: 200}
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
@@ -1095,7 +1096,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 385304203}
-  m_VersionIndex: 235
+  m_VersionIndex: 482
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

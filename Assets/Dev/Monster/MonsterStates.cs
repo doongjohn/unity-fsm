@@ -24,7 +24,7 @@ namespace MonsterState
 
             var speed = data.followSpeed;
 
-            // set appropriate speed if the movement overshots
+            // clamp speed if the movement overshots the strafe range
             if (data.targetDistance > data.strafeEnterRange)
             {
                 if (data.targetDistance - (speed * Time.fixedDeltaTime) < data.strafeEnterRange)
@@ -37,6 +37,7 @@ namespace MonsterState
                 speed = 0f;
             }
 
+            // apply velocity
             data.rb.velocity = data.targetDirection * speed;
         }
     }

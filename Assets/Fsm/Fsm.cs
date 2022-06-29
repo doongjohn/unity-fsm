@@ -238,24 +238,22 @@ namespace Fsm
             this.currentFlow = startingFlow;
         }
 
+        // NOTE: this function can loop infinitely
         private (Flow<D> nextFlow, Flow<D>.NodeState nextNodeState) RecFindNext(Flow<D> currentFlow, Flow<D>.Node currentNode)
         {
-            // NOTE: this function can loop infinitely
-
             if (currentNode is Flow<D>.NodeState)
             {
                 var currentNodeState = (Flow<D>.NodeState)currentNode;
                 var nextNodeName = currentNodeState.next(data);
                 if (nextNodeName is not null)
                 {
-                    // transition is found
+                    // transition is found (recurse)
                     var node = currentFlow.GetNodeByName(nextNodeName);
                     return this.RecFindNext(currentFlow, node);
                 }
                 else
                 {
-                    // no more transition is found
-                    // stop recursing
+                    // no more transition is found (stop recursing)
                     return (currentFlow, currentNodeState);
                 }
             }

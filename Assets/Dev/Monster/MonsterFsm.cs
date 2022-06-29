@@ -41,7 +41,8 @@ TODO:
     - [ ] 다음 스킬을 랜덤(개별 확률)으로 선택한다.
     - [ ] 스킬(공격) 애니메이션 적용
         https://forum.unity.com/threads/how-to-find-animation-clip-length.465751/
-- [ ] 스킬 만들기 (임시)
+- [ ] 스킬
+    - [x] 임시 콩알 발사
     - [ ] 근거리 공격
     - [ ] 범위 공격
     - [ ] 원거리 공격 (150m)
@@ -88,20 +89,22 @@ public class MonsterData
     public float followSpeed = 4f;
 
     [Header("Strafe Settings")]
-    public float strafeEnterRange = 5f;
+    public float strafeEnterRange = 4f;
     public float strafeDuration = 3f;
     public float strafeSpeed = 2.5f;
 
     [Header("Skill Settings")]
     public float skillRange = 7f;
     public float skillCooldown = 5f;
-    public GameObject prefabBullet;
 
     [HideInInspector]
     public float skillCooldownTimer = 0f;
 
     [HideInInspector]
     public bool isSkillActive = false;
+
+    [Header("Skill Prefabs")]
+    public GameObject prefabBullet;
 }
 
 static class MonsterFsm
@@ -147,8 +150,7 @@ static class MonsterFsm
                 name: "follow",
                 state: data => follow,
                 next: data =>
-                    // add padding
-                    data.targetDistance - data.strafeEnterRange - 0.1f <= 0
+                    data.targetDistance <= data.strafeEnterRange + 0.1f
                     ? "strafe idle"
                     : null
             )

@@ -20,7 +20,7 @@ namespace MonsterState
         }
         public override void OnFixedUpdate(MonsterData data)
         {
-            data.SmoothLookAt(data.target.transform, 4f);
+            data.transform.SmoothLookAt(data.target.transform, 4f);
 
             var speed = data.followSpeed;
 
@@ -44,9 +44,9 @@ namespace MonsterState
 
     class StrafeIdle : StateBase
     {
-        private float time = 0.5f;
+        private float duration = 0.5f;
         private float timer = 0f;
-        public bool IsDone => timer >= time;
+        public bool IsDone => timer >= duration;
 
         public override void OnEnter(MonsterData data)
         {
@@ -59,7 +59,7 @@ namespace MonsterState
         public override void OnFixedUpdate(MonsterData data)
         {
             timer += Time.deltaTime;
-            data.SmoothLookAt(data.target.transform, 4f);
+            data.transform.SmoothLookAt(data.target.transform, 4f);
         }
     }
 
@@ -69,13 +69,13 @@ namespace MonsterState
         private Vector3 anchorDir;
         private float anchorDist = 7f;
 
-        private float time = float.MaxValue;
+        private float duration = float.MaxValue;
         private float timer = 0f;
-        public bool IsDone => timer >= time;
+        public bool IsDone => timer >= duration;
 
         public override void OnEnter(MonsterData data)
         {
-            time = data.strafeDuration;
+            duration = data.strafeDuration;
 
             // to make a bigger circle, set the anchor position further than the target position
             anchor = data.target.transform.position + data.targetDirection * anchorDist;
@@ -91,7 +91,7 @@ namespace MonsterState
         {
             timer += Time.deltaTime;
 
-            data.SmoothLookAt(data.target.transform, 4f);
+            data.transform.SmoothLookAt(data.target.transform, 4f);
 
             // get the orthogonal vector of anchorDir
             anchorDir = (anchor - data.transform.position).normalized;
@@ -102,10 +102,12 @@ namespace MonsterState
         }
     }
 
+    // TODO: 약공격인데 일단 뭐 던지는걸로 표현
     class Skill1 : StateBase
     {
-        // TODO: 약공격인데 일단 뭐 던지는걸로 표현
-        public float range = 5f;
+        private float duration = 3f;
+        private float timer = 0f;
+        public bool IsDone => timer >= duration;
 
         public override void OnEnter(MonsterData data)
         {
@@ -115,15 +117,17 @@ namespace MonsterState
             var bullet = GameObject.Instantiate(data.prefabBullet);
             bullet.transform.position = data.transform.position;
             bullet.transform.forward = data.targetDirection;
+
+            data.animator.CrossFade(MonsterAnim.Stand, 0.2f);
         }
         public override void OnExit(MonsterData data)
         {
             data.isSkillActive = false;
-            data.isSkill1Done = false;
+            timer = 0f;
         }
         public override void OnUpdate(MonsterData data)
         {
-            data.isSkill1Done = true;
+            timer += Time.deltaTime;
         }
     }
 }

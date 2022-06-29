@@ -101,18 +101,6 @@ public class MonsterData
 
     [HideInInspector]
     public bool isSkillActive = false;
-
-    [HideInInspector]
-    public bool isSkill1Done = false;
-
-    public void SmoothLookAt(Transform target, float speed)
-    {
-        Quaternion originalRot = transform.rotation;
-        transform.LookAt(target);
-        Quaternion newRot = transform.rotation;
-        transform.rotation = originalRot;
-        transform.rotation = Quaternion.Lerp(transform.rotation, newRot, speed * Time.deltaTime);
-    }
 }
 
 static class MonsterFsm
@@ -130,8 +118,23 @@ static class MonsterFsm
         var skill1 = new MonsterState.Skill1();
 
         // flows
+        var flowStart = new Flow<MonsterData>();
         var flowNormal = new Flow<MonsterData>();
         var flowSkill = new Flow<MonsterData>();
+
+        flowStart
+            .Do(
+                name: "idle",
+                state: data => idle,
+                next: data =>
+                    data.targetDistance <= data.aggroDistance
+                    ? "to normal"
+                    : null
+            )
+            .To(
+                name: "to normal",
+                next: data => flowNormal
+            );
 
         flowNormal
             .ForceTo(
@@ -145,14 +148,6 @@ static class MonsterFsm
                      );
                 },
                 next: data => flowSkill
-            )
-            .Do(
-                name: "idle",
-                state: data => idle,
-                next: data =>
-                    data.targetDistance <= data.aggroDistance
-                    ? "follow"
-                    : null
             )
             .Do(
                 name: "follow",
@@ -185,19 +180,19 @@ static class MonsterFsm
                 name: "skill1",
                 state: data => skill1,
                 next: data =>
-                    data.isSkill1Done
-                    ? "back"
+                    skill1.IsDone
+                    ? "to normal"
                     : null
             )
             .To(
-                name: "back",
+                name: "to normal",
                 next: data => flowNormal
             );
 
         // create fsm instance
         return new Fsm<MonsterData>(
             data: data,
-            startingFlow: flowNormal
+            startingFlow: flowStart
         );
     }
 }

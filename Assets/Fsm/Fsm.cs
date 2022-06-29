@@ -269,7 +269,7 @@ namespace Fsm
             }
         }
 
-        public void Update()
+        public void UpdateFsm()
         {
             // try get next node
             var nextNode = currentFlow.GetNextNode(data);
@@ -303,14 +303,15 @@ namespace Fsm
                     currentFlow.SetState(data, state);
                 }
             }
+        }
 
-            // update current flow
+        public void Update()
+        {
             currentFlow.OnUpdate(data);
         }
 
         public void FixedUpdate()
         {
-            // update current flow
             currentFlow.OnFixedUpdate(data);
         }
     }

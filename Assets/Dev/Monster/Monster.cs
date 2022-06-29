@@ -26,6 +26,7 @@ public class Monster : MonoBehaviour
         if (!data.isSkillActive)
             data.skillCooldownTimer += Time.deltaTime;
 
+        fsm.UpdateFsm();
         fsm.Update();
     }
 

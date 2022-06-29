@@ -105,7 +105,7 @@ namespace MonsterState
     // TODO: 약공격인데 일단 뭐 던지는걸로 표현
     class Skill1 : StateBase
     {
-        private float duration = 3f;
+        private float duration = 1f;
         private float timer = 0f;
         public bool IsDone => timer >= duration;
 

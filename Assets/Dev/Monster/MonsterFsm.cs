@@ -60,20 +60,21 @@ public static class MonsterAnim
 [System.Serializable]
 public class MonsterData
 {
-    public Animator animator;
-
-    [HideInInspector]
-    public string currentAnimation;
-
     [HideInInspector]
     public GameObject gameObject;
 
     [HideInInspector]
     public Transform transform;
 
+    public Animator animator;
+
+    [HideInInspector]
+    public string currentAnimation;
+
     [HideInInspector]
     public Rigidbody rb;
 
+    [HideInInspector]
     public GameObject target;
 
     [HideInInspector]
@@ -109,12 +110,9 @@ static class MonsterFsm
     {
         // states
         var idle = new MonsterState.Idle();
-
         var follow = new MonsterState.Follow();
-
         var strafeIdle = new MonsterState.StrafeIdle();
         var strafe = new MonsterState.Strafe();
-
         var skill1 = new MonsterState.Skill1();
 
         // flows
@@ -138,15 +136,11 @@ static class MonsterFsm
 
         flowNormal
             .ForceTo(
-                // TODO: this is a temporary skill
-                condition: data =>
-                {
-                    return (
-                        !data.isSkillActive &&
-                        data.skillCooldownTimer >= data.skillCooldown &&
-                        data.targetDistance <= data.skillRange
-                     );
-                },
+                condition: data => (
+                    !data.isSkillActive &&
+                    data.skillCooldownTimer >= data.skillCooldown &&
+                    data.targetDistance <= data.skillRange
+                ),
                 next: data => flowSkill
             )
             .Do(
@@ -178,16 +172,16 @@ static class MonsterFsm
         flowSkill
             .Do(
                 name: "skill1",
-                state: data => skill1,
-                next: data =>
-                    skill1.IsDone
-                    ? "to normal"
-                    : null
-            )
-            .To(
-                name: "to normal",
-                next: data => flowNormal
-            );
+                    state: data => skill1,
+                    next: data =>
+                        skill1.IsDone
+                        ? "to normal"
+                        : null
+                )
+                .To(
+                    name: "to normal",
+                    next: data => flowNormal
+                );
 
         // create fsm instance
         return new Fsm<MonsterData>(
